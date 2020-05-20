@@ -1,5 +1,0 @@
-scrapy
-markdown
-beautifulsoup4
-pytest
-requests
