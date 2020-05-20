@@ -82,7 +82,7 @@ function download {
 
   echo "${curl_output}"
 
-  if [ "${exit_code}" -ne 200 ] && [ "${exit_code}" -ne 416 ]; then
+  if [ "${exit_code}" -ne 200 ] && [ "${exit_code}" -ne 206 ] && [ "${exit_code}" -ne 416 ]; then
     fatal "download failed: ${exit_code}"
   fi
 }
