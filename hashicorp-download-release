@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DEFAULT_BASE_URL="https://releases.hashicorp.com"
+DEFAULT_ARCH="linux_amd64"
+
+function usage {
+  cat <<eof
+Downloads a binary package from Hashicorp's site.
+
+Usage:
+  $0 -p=<PACKAGE> -v=<VERSION [-u=<URL>] [-a=<ARCH>] [-o=<PATH>] [-c=<SHA256>]
+
+Options:
+  -u, --base-url=<URL>         Base URL for the packages
+                               (default: $DEFAULT_BASE_URL)
+  -p, --package=<PACKAGE>      Package to download
+  -v, --version=<VERSION>      Version to be downloaded
+  -a, --arch=<ARCH>            Architecture to be fetched (default: $DEFAULT_ARCH)
+  -o, --output-dir=<PATH>      Output directory (default: .)
+  -c, --checksum=<SHA256>      SHA256 checksum
+
+Obs: this requires curl and unzip to be installed in the system.
+eof
+}
+
+BASE_URL="${DEFAULT_BASE_URL}"
+PACKAGE=''
+VERSION=''
+ARCH="${DEFAULT_ARCH}"
+OUTPUT_DIR='.'
+CHECKSUM=''
+
+function main {
+  filename="${PACKAGE}_${VERSION}_${ARCH}.zip"
+  sums_filename="${PACKAGE}_${VERSION}_SHA256SUMS"
+
+  base_version_url="${BASE_URL%/}/${PACKAGE}/${VERSION}"
+  url="${base_version_url}/${filename}"
+  sums_url="${base_version_url}/${sums_filename}"
+
+  output="${OUTPUT_DIR%/}/${filename}"
+  sums_output="${OUTPUT_DIR%/}/${sums_filename}"
+
+  info 'Downloading the main package file'
+  download "${url}" "${output}"
+
+  info 'Downloading the SHA256 sums'
+  download "${sums_url}" "${sums_output}"
+
+  cd "${OUTPUT_DIR}"
+
+  info 'Checking the download SHA256 sum'
+
+  sha256sum -c "${sums_filename}" --ignore-missing
+
+  if [ -n "${CHECKSUM}" ]; then
+    info 'Checking the authenticity of the checksum'
+    expected_checksum="$(grep "${filename}" "${sums_filename}" | awk '{print $1}')"
+
+    if [ "${expected_checksum}" != "${CHECKSUM}" ]; then
+      fatal "Checksums don't match"
+    fi
+  fi
+
+  info 'Extracting the executable'
+  unzip -o "${filename}"
+
+  info 'Checking the version'
+  "./${PACKAGE}" --version | grep "${VERSION}"
+}
+
+function download {
+  url="$1"
+  output="$2"
+
+  curl_output="$(curl -L -C - -o "${output}" "${url}" \
+    -w "%{url_effective} [HTTP %{response_code}] - %{size_download} bytes - %{time_total} s\n")"
+
+  exit_code="$(echo -n "${curl_output}" | sed 's/.*\[HTTP \([0-9]\+\)\].*/\1/')"
+
+  echo "${curl_output}"
+
+  if [ "${exit_code}" -ne 200 ] && [ "${exit_code}" -ne 416 ]; then
+    fatal "download failed: ${exit_code}"
+  fi
+}
+
+function info {
+  echo "INFO: $@"
+}
+
+function fatal {
+  echo "FATAL: $@" >&2
+  exit 1
+}
+
+function read_arguments {
+  set +e
+
+  OPTIONS="$(getopt -o hu:p:v:a:o:c: --long help,base-url:,package:,version:,arch:,output-dir:,checksum: -- "$@")"
+
+  if [ "$?" -ne 0 ]; then
+    usage >&2
+    exit 1
+  fi
+
+  set -e
+
+  eval set -- "${OPTIONS}"
+
+  while true; do
+    case "$1" in
+      -h | --help )
+        usage
+        exit 0
+        ;;
+      -u | --base-url )
+        shift
+        BASE_URL="$1"
+        ;;
+      -p | --package )
+        shift
+        PACKAGE="$1"
+        ;;
+      -v | --version )
+        shift
+        VERSION="$1"
+        ;;
+      -a | --arch )
+        shift
+        ARCH="$1"
+        ;;
+      -o | --output-dir )
+        shift
+        OUTPUT_DIR="$1"
+        ;;
+      -c | --checksum )
+        shift
+        CHECKSUM="$1"
+        ;;
+      --)
+        shift
+        break
+        ;;
+    esac
+    shift
+  done
+
+  if [ -z "${PACKAGE}" ]; then
+    fatal "--package is required"
+  fi
+
+  if [ -z "${VERSION}" ]; then
+    fatal "--version is required"
+  fi
+}
+
+read_arguments "$@"
+main

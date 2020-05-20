@@ -1,0 +1,18 @@
+Source: terraform
+Section: utils
+Priority: optional
+Maintainer: Diogenes Oliveira <diogenes1oliveira@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://www.terraform.io
+Vcs-Git: https://github.com/hashicorp/terraform.git
+Vcs-Browser: https://github.com/hashicorp/terraform
+
+Package: terraform
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, curl, unzip
+Description: Declarative multi-cloud infrastructure as code
+  Terraform enables you to safely and predictably create, change, and improve
+  infrastructure. It is an open source tool that codifies APIs into declarative
+  configuration files that can be shared amongst team members, treated as code,
+  edited, reviewed, and versioned.
