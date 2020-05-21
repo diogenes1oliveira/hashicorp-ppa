@@ -1,4 +1,4 @@
-${PACKAGE} (${VERSION}) bionic cosmic disco eoan focal groovy; urgency=medium
+${PACKAGE} (${VERSION}) bionic; urgency=medium
 
   * Generating a download package for version ${VERSION}
 

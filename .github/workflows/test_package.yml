@@ -15,5 +15,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: sudo apt-get install -y bats
+      - name: Generate the package
+        run: make fetch && make generate && make docker/build
+        env:
+          PACKAGE: terraform
+          VERSION: "0.12.24"
       - name: Run the Bats tests
         run: bats --tap *.bats
+        env:
+          PACKAGE: terraform
+          VERSION: "0.12.24"
