@@ -1,8 +1,7 @@
-terraform for Debian
--------------------
+The Debian Package ${PACKAGE}
+-----
 
-This source package simply downloads and unpacks the real binary
+This package simply downloads and unpacks the real binary
 from Hashicorp's official releases site.
 
  -- Diogenes Oliveira <diogenes1oliveira@gmail.com>  Sun, 17 May 2020 16:29:37 +0000
-

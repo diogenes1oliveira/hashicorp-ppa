@@ -1,0 +1,8 @@
+${PACKAGE} for Debian
+-----
+
+This source package creates a package that simply downloads and unpacks the real
+binary from Hashicorp's official releases site.
+
+ -- Diogenes Oliveira <diogenes1oliveira@gmail.com>  Sun, 17 May 2020 16:29:37 +0000
+

@@ -43,3 +43,5 @@ Finally, create the source package files with:
 ``` sh
 $ make build
 ```
+
+This will create the package referencing your Git username and email.

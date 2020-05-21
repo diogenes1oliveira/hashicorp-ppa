@@ -1,0 +1,5 @@
+${PACKAGE} (${VERSION}) bionic cosmic disco eoan focal groovy; urgency=medium
+
+  * Generating a download package for version ${VERSION}
+
+ -- ${AUTHOR_NAME} <${AUTHOR_EMAIL}>  ${BUILD_TIME}
