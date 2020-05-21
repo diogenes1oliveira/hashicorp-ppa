@@ -7,6 +7,15 @@ from Hashicorp's website at install time.
 
 The PPA is available at [diogenes1oliveira/hashicorp-ppa](https://launchpad.net/~diogenes1oliveira/+archive/ubuntu/hashicorp-ppa).
 
+<table>
+  <tr>
+    <td><a href="https://www.terraform.io"><img src="icons/terraform.png" width=270></a></td>
+    <td><a href="https://www.packer.io/"><img src="icons/packer.png" width=270></a></td>
+    <td><a href="https://www.vagrantup.com/"><img src="icons/vagrant.png" width=270></a></td>
+    <td><a href="https://www.vaultproject.io"><img src="icons/vault.png" width=270></a></td>
+  </tr>
+</table>
+
 ## Install
 
 If you're using Ubuntu, install it via PPA with:
