@@ -1,0 +1,5 @@
+${PACKAGE} (${VERSION}) bionic; urgency=medium
+
+  * Generating a download package for version ${VERSION}
+
+ -- ${AUTHOR_NAME} <${AUTHOR_EMAIL}>  ${BUILD_TIME}

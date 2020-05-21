@@ -4,6 +4,8 @@ PPA for Hashicorp applications, such as Vagrant and Terraform
 
 ## Usage
 
+### Generating the source package files
+
 First export the environment variables with the `$PACKAGE` and `$VERSION` you
 want to build the package for:
 
@@ -38,8 +40,37 @@ $ cat build/terraform_0.12.24.vars
 # CHECKSUM=602d2529aafdaa0f605c06adb7c72cfb585d8aa19b3f4d8d189b42589e27bf11
 ```
 
-Finally, create the source package files with:
+Finally, generate the source package files with:
+
+``` sh
+$ make generate
+```
+
+This will create the package referencing your Git username and email.
+
+### Building and deploying the package
+
+First build the Docker image for the container in which all the builds
+will be executed:
+
+``` sh
+$ make docker/build
+```
+
+Test the generated package with:
+
+``` sh
+$ bats *.bats
+```
+
+Then build up the source package, informing your GPG key passphrase:
 
 ``` sh
 $ make build
+```
+
+Finally, send the package to Launchpad with:
+
+``` sh
+$ make deploy
 ```
