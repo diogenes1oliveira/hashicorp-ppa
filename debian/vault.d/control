@@ -1,0 +1,18 @@
+Source: vault
+Section: utils
+Priority: optional
+Maintainer: Diogenes Oliveira <diogenes1oliveira@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://www.vaultproject.io
+Vcs-Git: https://github.com/diogenes1oliveira/hashicorp-ppa.git
+Vcs-Browser: https://github.com/diogenes1oliveira/hashicorp-ppa
+
+Package: vault
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, curl, unzip
+Description: Secrets management, encryption and privileged access
+  Vault is a tool for securely accessing secrets. A secret is anything
+  that you want to tightly control access to, such as API keys, passwords,
+  certificates, and more. Vault provides a unified interface to any secret,
+  while providing tight access control and recording a detailed audit log.
