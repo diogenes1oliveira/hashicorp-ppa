@@ -2,7 +2,23 @@
 
 PPA for Hashicorp applications, such as Vagrant and Terraform
 
-## Usage
+No Hashicorp code is hosted here: the package simply downloads the binary
+from Hashicorp's website at install time.
+
+The PPA is available at [diogenes1oliveira/hashicorp-ppa](https://launchpad.net/~diogenes1oliveira/+archive/ubuntu/hashicorp-ppa).
+
+## Install
+
+If you're using Ubuntu, install it via PPA with:
+
+``` sh
+$ add-apt-repository ppa:diogenes1oliveira/hashicorp-ppa
+$ apt update
+$ apt install terraform
+$ apt install vagrant
+```
+
+## Deploying new packages
 
 ### Generating the source package files
 
