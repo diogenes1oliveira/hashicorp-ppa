@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Obs: the variables names between double curly braces should
+# be replaced by the ones in the corresponding package.env
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+export PACKAGE_DATA="${DESTDIR}/opt/hashicorp/${PACKAGE}"
+export VAR_DATA="${DESTDIR}/var/opt/hashicorp/${PACKAGE}"
+
+rm -rf "${VAR_DATA}/*"
+rm -rf "${PACKAGE_DATA}/${PACKAGE}"
+rm -f "/usr/bin/${PACKAGE}"

@@ -1,0 +1,13 @@
+
+PACKAGE_DATA := $(DESTDIR)/opt/hashicorp/${PACKAGE}
+VAR_DATA := $(DESTDIR)/var/opt/hashicorp/${PACKAGE}
+BINARY := $(DESTDIR)/usr/bin/${PACKAGE}
+
+all:
+	@echo
+
+install:
+	mkdir -p $(PACKAGE_DATA)
+	mkdir -p $(VAR_DATA)
+	cp ./hashicorp-download-release $(PACKAGE_DATA)/hashicorp-download-release
+	chmod +x $(PACKAGE_DATA)/hashicorp-download-release
